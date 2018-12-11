@@ -58,7 +58,7 @@ namespace TechJobs.Data
                     PositionType = positionType,
                     CoreCompetency = coreCompetency
                 };
-                jobData.Jobs.Add(newJob);
+                jobData.Job.Add(newJob);
             }
 
             IsDataLoaded = true;

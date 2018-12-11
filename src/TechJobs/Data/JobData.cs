@@ -11,12 +11,12 @@ namespace TechJobs.Data
          * A data store for Job objects
          */
 
-        public List<Job> Jobs { get; set; } = new List<Job>();
+        public List<Job> Job { get; set; } = new List<Job>();
         public JobFieldData<Employer> Employers { get; set; } = new JobFieldData<Employer>();
         public JobFieldData<Location> Locations { get; set; } = new JobFieldData<Location>();
         public JobFieldData<PositionType> PositionTypes { get; set; } = new JobFieldData<PositionType>();
         public JobFieldData<CoreCompetency> CoreCompetencies { get; set; } = new JobFieldData<CoreCompetency>();
-
+        public object Jobs { get; internal set; }
 
         private JobData()
         {
@@ -24,6 +24,8 @@ namespace TechJobs.Data
         }
 
         private static JobData instance;
+        private static Job newJobs;
+
         public static JobData GetInstance()
         {
             if (instance == null)
@@ -41,7 +43,7 @@ namespace TechJobs.Data
          */
         public List<Job> FindByValue(string value)
         {
-            var results = from j in Jobs
+            var results = from j in Job
                           where j.Employer.Contains(value)
                           || j.Location.Contains(value)
                           || j.Name.ToLower().Contains(value.ToLower())
@@ -59,7 +61,7 @@ namespace TechJobs.Data
          */
         public List<Job> FindByColumnAndValue(JobFieldType column, string value)
         {
-            var results = from j in Jobs
+            var results = from j in Job
                           where GetFieldByType(j, column).Contains(value)
                           select j;
 
@@ -95,12 +97,13 @@ namespace TechJobs.Data
          */
         public Job Find(int id)
         {
-            var results = from j in Jobs
+            var results = from j in Job
                           where j.ID == id
                           select j;
 
             return results.Single();
         }
 
+        
     }
 }
